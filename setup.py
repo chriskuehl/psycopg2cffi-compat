@@ -14,22 +14,11 @@
 # limitations under the License.
 from __future__ import absolute_import, division, print_function
 
-import platform
-
 from setuptools import setup
-
-
-if platform.python_implementation() == "PyPy":
-    PY_MODULES = ["psycopg2"]
-    INSTALL_REQUIRES = ["psycopg2cffi"]
-else:
-    PY_MODULES = []
-    INSTALL_REQUIRES = ["psycopg2"]
-
 
 setup(
     name="psycopg2cffi-compat",
-    version="1.1",
+    version="1.1.post2",
 
     description="A Simple library to enable psycopg2 compatability",
     license="Apache License v2.0",
@@ -51,6 +40,8 @@ setup(
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
 
-    py_modules=PY_MODULES,
-    install_requires=INSTALL_REQUIRES,
+    extras_require={
+        ':platform_python_implementation!="PyPy"': ['psycopg2'],
+        ':platform_python_implementation=="PyPy"': ['psycopg2-compat-fake'],
+    },
 )
